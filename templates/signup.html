@@ -1,0 +1,148 @@
+{% extends 'nav.html' %}
+{% load static %}
+
+{% block title %} SignUP {% endblock title %}
+
+{% block banner-slider %} 
+
+
+
+
+
+<style>
+
+
+.form-control {
+    background: transparent !important;
+    color: white;
+    border: 1px solid white;
+   
+}
+
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+.form-control:focus {
+    background: transparent !important;
+    color: white !important;
+    border-color: #ddd;
+    outline: none;
+    box-shadow: none;
+}
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 100vh; 
+        background: url("{% static 'images/b6.jpg' %}") no-repeat center center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-container {
+        background: rgba(0, 0, 0, 0.7); 
+        padding: 30px;
+        border-radius: 10px;
+        color: white;
+        width: 500px;
+        height: 540px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: -150px;
+    }
+
+    .btn-dark {
+        width: 100%;
+    }
+</style>
+
+<div class="image-container">
+    <div class="form-container">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <h3 class="text-center">Sign Up</h3>
+
+            <input type="text" class="form-control mb-3" name="first_name" placeholder="Enter Your Name" required autocomplete="off" maxlength="25">
+            <br>
+            
+            <input type="text" class="form-control mb-3" name="username" placeholder="Enter Mobile Number" required autocomplete="off">
+            <br>
+            {% if usermessage %}
+            <p class="text-danger text-center">{{ usermessage }}</p>
+             {% endif %}
+            
+            <input type="email" class="form-control mb-3" name="email" placeholder="Enter Valid Email" required autocomplete="off">
+            <br>
+            {% if emailmessage %}
+            <p class="text-danger text-center">{{ emailmessage }}</p>
+            {% endif %}
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Enter Password" id="signupPassword">
+                <span class="input-group-text bg-dark border-white" onclick="toggleSignupPassword()" style="cursor: pointer;">
+                    <i class="bx bx-show text-white" id="signupToggleIcon"></i>
+                </span>
+            </div>
+            <br>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" id="signupConfirmPassword">
+                <span class="input-group-text bg-dark border-white" onclick="toggleConfirmPassword()" style="cursor: pointer;">
+                    <i class="bx bx-show text-white" id="confirmToggleIcon"></i>
+                </span>
+            </div>
+            {% if message %}
+            <p class="text-danger text-center">{{ message }}</p>
+             {% endif %}
+            <input type="submit" value="Signup"  class="btn btn-dark text-dark fw-bold" style="background-color: white;">
+        </form>
+        <br>
+        <h6 class="text-center">Already Have An Account? <a href="{% url 'login' %}" style="text-decoration: none; color: #ff334f;">Login Here</a></h6>
+    </div>
+</div>
+
+
+
+
+       
+<script>
+    function toggleSignupPassword() {
+        const passwordInput = document.getElementById('signupPassword');
+        const toggleIcon = document.getElementById('signupToggleIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('bx-show');
+            toggleIcon.classList.add('bx-hide');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('bx-hide');
+            toggleIcon.classList.add('bx-show');
+        }
+    }
+
+    function toggleConfirmPassword() {
+        const passwordInput = document.getElementById('signupConfirmPassword');
+        const toggleIcon = document.getElementById('confirmToggleIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('bx-show');
+            toggleIcon.classList.add('bx-hide');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('bx-hide');
+            toggleIcon.classList.add('bx-show');
+        }
+    }
+</script>
+
+
+
+
+{% endblock banner-slider %} 
+
+
+

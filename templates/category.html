@@ -1,0 +1,203 @@
+{% extends 'nav.html' %}
+{% load static %}
+
+{% block title %} Category {% endblock title %}
+
+{% block main-content %}
+
+<style>
+    /* Base Styles */
+    .product-img {
+        height: 200px;
+        width: 100%;
+        object-fit: contain;
+        border-radius: 10px;
+    }
+
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 0px 0px 7px grey;
+        border-radius: 15px;
+        height: 100%;
+    }
+
+    .hover-card:hover {
+        transform: scale(1.03);
+    }
+
+    .card-body h5 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-body p {
+        font-size: 1rem;
+    }
+
+    /* Filter Sidebar */
+    .filter-sidebar {
+        background-color: #f5f5f5;
+        border-radius: 10px;
+        padding: 1.5rem;
+        height: fit-content;
+        margin-bottom: 2rem;
+    }
+
+    .filter-title {
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    /* Brand Filter Links */
+    .brand-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .brand-link {
+        text-decoration: none;
+        color: black;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        border: 1px solid white;
+        background-color: white;
+    }
+
+    .brand-link:hover,
+    .brand-link:focus,
+    .brand-link.active {
+        background-color: #222831 !important;
+        color: white !important;
+        border-color: white !important;
+    }
+
+    /* Out of Stock Section */
+    .out-of-stock {
+        min-height: 50vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .out-of-stock-icon {
+        height: 60px;
+        width: 60px;
+        margin-bottom: 1rem;
+    }
+
+    .query-btn {
+        background-color: white;
+        border: solid 1px black;
+        color: black;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+    .query-btn:hover {
+        background-color: black;
+        color: white;
+    }
+
+    /* Responsive Adjustments */
+    @media (min-width: 576px) {
+        .product-img {
+            height: 180px;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .product-img {
+            height: 220px;
+        }
+        
+        .filter-sidebar {
+            margin-bottom: 0;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .product-img {
+            height: 250px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .product-img {
+            height: 280px;
+        }
+    }
+</style>
+
+{% if products %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Filter Sidebar - Moves to top on mobile -->
+        <div class="col-lg-2 col-md-3 mb-4 mb-md-0">
+            <div class="filter-sidebar">
+                <h5 class="filter-title">Filter by Brand</h5>
+                <div class="brand-list">
+                    <a href="{% url 'category' val %}"
+                       class="brand-link {% if not selected_brand %}active{% endif %}">
+                        All Brands
+                    </a>
+
+                    {% for brand in brands %}
+                        <a href="{% url 'category' val %}?brand={{ brand }}"
+                           class="brand-link {% if brand == selected_brand %}active{% endif %}">
+                            {{ brand }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="col-lg-10 col-md-9">
+            <div class="row">
+                {% for prod in products %}
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                    <div class="card h-100 shadow-sm border-0 hover-card">
+                        <a href="{% url 'product_details' prod.id %}" style="text-decoration: none; color: inherit;">
+                            {% if prod.product_image %}
+                                <img src="{{ prod.product_image.url }}" class="card-img-top product-img" alt="{{ prod.title }}">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center p-5 text-center bg-light" style="height: 200px;">
+                                    No Image Available
+                                </div>
+                            {% endif %}
+                            <div class="card-body text-center">
+                                <h5 class="card-title fw-bold text-dark">{{ prod.title }}</h5>
+                                <p class="card-text text-dark fw-bold mb-0">Rs.{{ prod.discount_price }}/-</p>
+                                <small class="text-danger text-decoration-line-through">Rs.{{ prod.selling_price }}/-</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<!-- Out of Stock Section -->
+<div class="container out-of-stock">
+    <div class="text-center">
+        <img src="{% static 'images/OS.png' %}" alt="Out of stock" class="out-of-stock-icon">
+        <h4>{{ val|title }} is Out Of Stock</h4>
+        <p class="text-muted">We will let you know soon when it's available again!</p>
+        <p class="text-muted">Connect with us for Latest Updates</p>
+        <a class="query-btn" href="{% url 'contact' %}">Query Now</a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock main-content %}

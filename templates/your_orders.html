@@ -1,0 +1,119 @@
+{% extends 'nav.html' %}
+{% load static %}
+
+{% block title %} Profile {% endblock title %}
+
+{% block main-content %}
+
+
+
+
+
+<style>
+
+    .order-container-custom {
+        max-width: 75%;       /* Same as Bootstrap's container-lg */
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-top: 2vh;
+        min-height: 53vh;
+        
+    }
+    
+    
+    
+    </style>
+    
+    <div id="orders" class="ordercontainer py-4">
+        <div class="order-container-custom">
+            <h2 class="text-center mb-4" style="font-family: 'Franklin Gothic Medium'; letter-spacing: 2px;">Your Orders</h2>
+    
+            {% if orders %}
+                {% for od in orders %}
+                    <div class="card shadow mb-4 rounded-4 border-0">
+                        <div class="card-body">
+                            <div class="row align-items-center justify-content-center">
+                                <!-- Product Image -->
+                                <div class="col-md-2 text-center mx-2">
+                                    <img src="{{ od.product.product_image.url }}" class="img-fluid rounded" style="max-height: 100px;">
+                                </div>
+    
+                                <!-- Product Details -->
+                                <div class="col-md-5 ">
+                                    <h5 class="mb-1" style="text-transform: uppercase;">{{ od.product.title }}</h5>
+                                    <p class="mb-1">Quantity: <strong>{{ od.quantity }}</strong></p>
+                                    <p class="mb-1">Price: <strong>Rs.{{ od.total_cost }}</strong></p>
+                                    <p class="mb-1 text-muted">Order ID: {{ od.payment.razorpay_order_id }}</p>
+                                    <p class="mb-1 text-muted">Ordered On: {{ od.ordered_date|date:"d M, Y" }}</p>
+                                    <p class="mb-1 text-muted">Expected Delivery Date: {{ od.delivered_on|date:"d M, Y" }}</p>
+
+                                    
+                                </div>
+
+                                <div class="col-md-4 mt-4">
+                                    Shipping Address: <p class="mb-1 text-muted">{{ od.full_address }}</p>
+
+
+                                </div>
+    
+                                <!-- Order Status -->
+                                <div class="col-md-3 mt-4 ">
+                                    <p class="fw-semibold mb-2">Order Status: 
+                                        <span class="badge {% if od.status == 'Pending' %}bg-warning text-dark
+                                                            {% elif od.status == 'Packed' %}bg-info
+                                                            {% elif od.status == 'Shipped' %}bg-primary
+                                                            {% elif od.status == 'Delivered' %}bg-success
+                                                            {% endif %}">
+                                            {{ od.status }}
+                                        </span>
+                                    </p>
+    
+                                    <!-- Progress bar -->
+                                    <div class="progress" style="height: 10px;">
+                                        {% if od.status == 'Pending' %}
+                                            <div class="progress-bar bg-warning" style="width: 10%;"></div>
+                                        {% elif od.status == 'Packed' %}
+                                            <div class="progress-bar bg-info" style="width: 40%;"></div>
+                                        {% elif od.status == 'Shipped' %}
+                                            <div class="progress-bar bg-primary" style="width: 70%;"></div>
+                                        {% elif od.status == 'Delivered' %}
+                                            <div class="progress-bar bg-success" style="width: 100%;">Delivered</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                {% endfor %}
+
+                
+    <div class="col-md-12" style="margin-left: 47%;">
+        <a class="btn" href="{% url 'ourproducts' %}" 
+        
+        style="background-color: white; border: solid 1px black; color: black; transition: 0.3s;"
+        onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
+        onmouseout="this.style.backgroundColor='white'; this.style.color='black';">Order More</a>
+    </div>
+
+
+            {% else %}
+                <h4 class="text-center mt-5 text-muted">You have no orders yet.</h4>
+                <div class="col-md-12 d-flex justify-content-center align-items-center " style=" margin-top: 10vh;">
+                    <a class="btn" href="{% url 'ourproducts' %}" 
+                    
+                    style="background-color: white; border: solid 1px black; color: black; transition: 0.3s;"
+                    onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
+                    onmouseout="this.style.backgroundColor='white'; this.style.color='black';">Order Now</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+   
+
+
+
+{% endblock main-content %}

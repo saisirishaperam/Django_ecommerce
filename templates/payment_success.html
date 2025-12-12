@@ -1,0 +1,14 @@
+{% extends 'nav.html' %}
+{% block title %} Payment Success {% endblock %}
+
+{% block main-content %}
+<div class="container text-center" style="margin-top: 20vh;">
+    <h2 class="text-success">Payment Successful! 🎉</h2>
+    <p>Thank you for your order. Your payment has been received and your order has been placed.</p>
+    <a href="{% url 'orders' %}" class="btn mt-3" 
+    style="background-color: white; border: solid 1px black; color: black; transition: 0.3s;"
+    onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
+    onmouseout="this.style.backgroundColor='white'; this.style.color='black';"
+    >View Orders</a>
+</div>
+{% endblock %}

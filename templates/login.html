@@ -1,0 +1,110 @@
+{% extends 'nav.html' %}
+{% load static %}
+
+{% block title %} Login-Melody Mart {% endblock title %}
+
+{% block banner-slider %} 
+
+
+
+
+
+<style>
+
+
+.form-control {
+    background: transparent !important;
+    color: white;
+    border: 1px solid white;
+   
+}
+
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+.form-control:focus {
+    background: transparent !important;
+    color: white !important;
+    border-color: #ddd;
+    outline: none;
+    box-shadow: none;
+}
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 100vh; 
+        background: url("{% static 'images/b6.jpg' %}") no-repeat center center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .form-container {
+        background: rgba(0, 0, 0, 0.7); 
+        padding: 30px;
+        border-radius: 10px;
+        color: white;
+        width: 500px;
+        height: 320px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-top: -150px;
+    }
+
+    .btn-dark {
+        width: 100%;
+    }
+</style>
+
+<div class="image-container">
+    <div class="form-container">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <h3 class="text-center">Login</h3>
+            <input type="email" class="form-control mb-3" name="email"  placeholder="Enter email " required >
+            <br>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" name="P1" placeholder="Enter Password" id="passwordField" required>
+                <span class="input-group-text bg-dark border-white" onclick="togglePasswordVisibility()" style="cursor: pointer;">
+                    <i class="bx bx-show text-white" id="toggleIcon"></i>
+                </span>
+            </div>
+            {% if message %}
+            <p class="text-danger text-center">{{ message }}</p>
+             {% endif %}
+            <input type="submit" value="Login"  class="btn btn-dark text-dark fw-bold" style="background-color: white;">
+        </form>
+        <br>
+        <h6 class="text-center">Don't You Have An Account? <a href="{% url 'signup' %}" style="text-decoration: none; color: #ff334f;">Signup Now</a></h6>
+
+    </div>
+</div>
+
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('passwordField');
+        const toggleIcon = document.getElementById('toggleIcon');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('bx-show');
+            toggleIcon.classList.add('bx-hide');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('bx-hide');
+            toggleIcon.classList.add('bx-show');
+        }
+    }
+</script>
+
+
+
+
+{% endblock banner-slider %} 
+
+
+

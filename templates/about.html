@@ -1,0 +1,191 @@
+{% extends 'nav.html' %}
+{% load static %}
+{% block title %}About Melody Mart{% endblock %}
+
+{% block main-content %}
+<style>
+  .hero-about {
+    background-color: #f4f4f4;
+    padding: 80px 0;
+    text-align: center;
+  }
+
+  .hero-about h1 {
+    font-size: 42px;
+    font-weight: 700;
+  }
+
+  .hero-about p {
+    font-size: 18px;
+    color: #666;
+    max-width: 700px;
+    margin: 20px auto;
+  }
+
+  .section-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .about-card img {
+    border-radius: 10px;
+    object-fit: cover;
+    height: 250px;
+  }
+
+  .about-card h5 {
+    font-weight: 600;
+    margin-top: 15px;
+  }
+
+  .about-text {
+    font-size: 16px;
+    color: #444;
+    line-height: 1.7;
+    text-align: justify;
+  }
+
+
+
+  .mission-section {
+    background-color: #f9f9f9;
+    padding: 60px 0;
+  }
+ 
+  .card{
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+</style>
+
+<!-- Hero Section -->
+<section class="hero-about">
+  <div class="container">
+    <h1 class="stylish-heading">Welcome to Melody Mart</h1>
+    <p>Your one-stop destination for premium musical instruments. Where rhythm meets passion and melody finds its soul.</p>
+  </div>
+</section>
+
+<!-- Mission and Vision -->
+<section class="mission-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <h3 class="section-title stylish-heading">Our Mission</h3>
+        <p class="about-text">At <strong class="text-dark">Melody Mart</strong>, our mission is to empower musicians of all levels by providing the finest instruments and gear. We believe in the transformative power of music and aim to make quality equipment accessible to everyone, from passionate beginners to seasoned professionals.</p>
+      </div>
+      <div class="col-md-6 mb-4">
+        <h3 class="section-title stylish-heading">Our Vision</h3>
+        <p class="about-text">To become India's most trusted online destination for musical instruments, blending technology, trust, and top-notch customer experience. We envision a world where every melody starts at Melody Mart.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Instruments Gallery -->
+<section class="py-5">
+  <div class="container">
+    <h3 class="section-title stylish-heading">Explore Our Collection</h3>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card about-card border-0 shadow-sm">
+          <img src="{% static 'images/GA.jpg' %}" class="card-img-top" alt="Guitar">
+          <div class="card-body">
+            <h5 class="card-title">Acoustic Guitars</h5>
+            <p class="card-text">Strum the soul of folk and blues with top-notch acoustic models.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card about-card border-0 shadow-sm">
+          <img src="{% static 'images/KA.webp' %}" class="card-img-top" alt="Keyboard">
+          <div class="card-body">
+            <h5 class="card-title">Digital Keyboards</h5>
+            <p class="card-text">From studio creation to stage performance — we’ve got your keys covered.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card about-card border-0 shadow-sm">
+          <img src="{% static 'images/DA.jpg' %}" class="card-img-top" alt="Drums">
+          <div class="card-body">
+            <h5 class="card-title">Percussion & Drums</h5>
+            <p class="card-text">Feel the beat with our range of electronic and acoustic drum kits.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card about-card border-0 shadow-sm">
+          <img src="{% static 'images/VA.webp' %}" class="card-img-top" alt="Violin">
+          <div class="card-body">
+            <h5 class="card-title">Violins & Strings</h5>
+            <p class="card-text">Unleash classical elegance with our curated collection of string instruments.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card about-card border-0 shadow-sm">
+          <img src="{% static 'images/ASA.jpg' %}" class="card-img-top" alt="Accessories">
+          <div class="card-body">
+            <h5 class="card-title">Accessories & Gear</h5>
+            <p class="card-text">From tuners to cases — find everything you need to complete your sound.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Mission & Vision Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold stylish-heading">Our Mission & Vision</h2>
+        <p class="text-muted">At Melody Mart, we're committed to redefining the musical experience.</p>
+      </div>
+      <div class="row">
+        <!-- Mission Card -->
+        <div class="col-md-6 mb-4">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <h4 class="card-title fw-semibold text-success">Our Mission</h4>
+              <p class="card-text mt-3">
+                At <strong>Melody Mart</strong>, our mission is to empower creativity through music by delivering
+                high-quality musical instruments and gear to artists of all skill levels.
+                We aim to provide an exceptional shopping experience, expert guidance, and a
+                supportive community for every musician.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Vision Card -->
+        <div class="col-md-6 mb-4">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <h4 class="card-title fw-semibold text-success">Our Vision</h4>
+              <p class="card-text mt-3">
+                We envision <strong>Melody Mart</strong> as India’s most trusted and innovative music marketplace,
+                known for our curated collections, expert service, and dedication to
+                musical empowerment. From bedroom beginners to concert performers, we strive
+                to inspire and equip every musician.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

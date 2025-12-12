@@ -1,0 +1,227 @@
+{% extends 'nav.html' %}
+{% load static %}
+
+{% block title %} Checkout {% endblock title %}
+
+{% block main-content %}
+<div class="container" style="margin-top: 10vh;">
+  {% if message %}
+    {% for msg in message %}
+      <div class="alert alert-danger" role="alert">
+        {{ msg }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="row g-5" >
+    <!-- Order Summary -->
+    <div class="col-md-6">
+      <div class="card shadow py-2 px-5 border-0">
+        <div class="card-body">
+          <h4 class="text-dark mb-4">🛒 Order Summary</h4>
+          {% for item in cart_items %}
+          <div class="d-flex align-items-center mb-3 border-bottom pb-2">
+            <!-- Product Image -->
+          
+            <!-- Product Info -->
+            <div>
+              <h6 class="mb-1">{{ item.product.title }}</h6>
+              <p class="mb-1 text-muted">Quantity: {{ item.quantity }}</p>
+              <p class="fw-semibold text-success">Rs.{{ item.product.discount_price }}</p>
+            </div>
+            <img src="{{ item.product.product_image.url }}" alt="{{ item.product.title }}" class="img-thumbnail me-3" style="width: 80px; height: 80px; object-fit: cover; margin-left: 70px;  ">
+
+          </div>
+          {% endfor %}
+          
+          <hr>
+          <h6 class="text-end">Total Cost + Rs.500 Shipping = <span class="text-success fw-bold">Rs.{{ totalamount }}</span></h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5 offset-md-1">
+      <div class="card shadow py-2 px-5 border-0">
+        <div class="card-body">
+          <h4 class="text-dark mb-4">Select Shipping Address</h4>
+          <form method="post">
+            {% csrf_token %}
+            
+            {% if add %}
+              {% for ad in add %}
+              <div class="form-check mb-3">
+                <input type="radio" class="form-check-input" name="custid" id="custadd{{ forloop.counter }}" value="{{ ad.id }}" required>
+                <label class="form-check-label fw-bold" for="custadd{{ forloop.counter }}">
+                  Address {{ forloop.counter }}
+                </label>
+                <div class="bg-light p-2 mt-1 rounded small">
+                  <p class="mb-1 fw-semibold">{{ ad.name }}</p>
+                  <p class="mb-1">Mobile: {{ ad.mobile }}</p>
+                  <p class="mb-0">{{ ad.address }}, {{ ad.city }}, {{ ad.state }} - {{ ad.pincode }}, {{ ad.country }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <div class="alert alert-warning text-center">
+                <strong>No addresses found!</strong><br>
+                Please <a href="{% url 'profile' %}">add an address</a> for shipping.
+              </div>
+            {% endif %}
+            
+
+
+    
+
+            <div class="mb-3 text-center">
+              <label class="form-label">Total Amount = <strong>Rs.{{totalamount}}</strong></label>
+              
+
+            </div>
+
+            <div class="text-end">
+              <button type="button" class="btn btn-success btn shadow" id="payNowBtn">
+                Pay Now
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<script>
+  document.getElementById("payNowBtn").addEventListener("click", function () {
+    const radios = document.querySelectorAll('input[name="custid"]');
+    let selected = false;
+
+    radios.forEach((radio) => {
+      if (radio.checked) {
+        selected = true;
+      }
+    });
+
+    if (selected) {
+      const modal = new bootstrap.Modal(document.getElementById('termsModal'));
+      modal.show();
+    } else {
+      alert("Please select a shipping address before proceeding to payment.");
+    }
+  });
+</script>
+
+
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content rounded-4 shadow-lg">
+      <div class="modal-header bg-dark text-white text-center">
+        <h5 class="modal-title text-center" id="termsModalLabel">Terms and Conditions</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body bg-light">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>1. Order Confirmation:</strong> Orders will be processed only after successful payment. You will receive an order confirmation email with details of your purchase.
+          </li>
+          <li class="list-group-item">
+            <strong>2. Shipping & Delivery:</strong> Standard delivery time is 3–7 business days. Delays may occur due to weather, holidays, or high-demand periods.
+          </li>
+          <li class="list-group-item">
+            <strong>3. Product Availability:</strong> All orders are subject to availability. If a product is unavailable, you will be notified, and a refund or replacement option will be provided.
+          </li>
+          <li class="list-group-item">
+            <strong>4. Return Policy:</strong> Returns are accepted within 7 days of delivery for unused and undamaged items. Please keep the original packaging for return pickup.
+          </li>
+          <li class="list-group-item">
+            <strong>5. Warranty:</strong> All instruments come with a manufacturer’s warranty (if applicable). Warranty claims must be made directly with the manufacturer.
+          </li>
+          <li class="list-group-item">
+            <strong>6. Payment Security:</strong> All transactions are encrypted and securely processed. We do not store any credit/debit card information.
+          </li>
+          <li class="list-group-item">
+            <strong>7. Cancellations:</strong> Orders can be canceled only before shipping. Once shipped, the order cannot be canceled and must be returned after delivery.
+          </li>
+          <li class="list-group-item">
+            <strong>8. Contact & Support:</strong> For any queries related to your order, email us at <a href="mailto:support@melodymart.com">support@melodymart.com</a> or call +91-XXXXXXXXXX.
+          </li>
+        </ul>
+        <p class="text-muted text-center mt-4">By placing your order, you agree to our Terms and Conditions and Privacy Policy.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="rzp-button1" class="btn btn-success">Agree & Pay</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1 style="margin-top: 50vh;"></h1>
+
+
+
+
+{% block payment-content %} 
+
+
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ razorpay_key }}",
+        "amount": "{{ totalamount|floatformat:0|add:'00' }}", // amount in paise
+        "currency": "INR",
+        "name": "Melody Mart",
+        "description": "Instrument Purchase",
+        "image": "/static/images/LOGO2.png",
+        "order_id": "{{ order_id }}",
+        "handler": function (response){
+            // Submit payment details securely via POST to paymenthandler
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = "{% url 'paymenthandler' %}";
+
+            var csrfToken = '{{ csrf_token }}';
+
+            function addHiddenInput(name, value) {
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = name;
+                input.value = value;
+                form.appendChild(input);
+            }
+
+            addHiddenInput('csrfmiddlewaretoken', csrfToken);
+            addHiddenInput('razorpay_payment_id', response.razorpay_payment_id);
+            addHiddenInput('razorpay_order_id', response.razorpay_order_id);
+            addHiddenInput('razorpay_signature', response.razorpay_signature);
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+
+        "prefill": {
+            "name": "{{ request.user.first_name }}",
+            "email": "{{ request.user.email }}"
+        },
+        "theme": {
+            "color": "#123458"
+        },
+    };
+
+    var rzp = new Razorpay(options);
+    document.getElementById('rzp-button1').onclick = function(e){
+        rzp.open();
+        e.preventDefault();
+    }
+</script>
+
+
+
+
+{% endblock payment-content %}
+
+
+
+{% endblock main-content %}

@@ -1,0 +1,68 @@
+{% extends 'nav.html' %}
+{% block title %} My Wishlist {% endblock title %}
+
+{% block main-content %}
+<div class="container py-5">
+    <h2 class="mb-4 text-center fw-bold stylish-heading">My Wishlist</h2>
+
+    {% if wishlist_items %}
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+            {% for item in wishlist_items %}
+            <div class="col">
+                <div class="card shadow ">
+                    <div class="position-relative">
+                        <img src="{{ item.product.product_image.url }}" class="card-img-top rounded-top" alt="{{ item.product.title }}" style="object-fit: contain; height: 250px;">
+                        <a class=" position-absolute top-0 end-0 m-2" style="color: red; font-size: 20px;">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-truncate">{{ item.product.title }}</h5>
+                        <p class="card-text mb-1 text-muted">Price</p>
+                        <h6 class="text-dark fw-bold">Rs.{{ item.product.discount_price }}</h6>
+                        <small class="text-danger text-decoration-line-through">Rs.{{ item.product.selling_price }}</small>
+                        
+                    </div>
+                    <div class="text-center mb-2">
+                    <a href="{% url 'product_details' item.product.id %}" class="btn btn-sm btn-outline-dark  ">View More</a>
+                        <a href="#" class="btn btn-sm btn-outline-danger remove-wishlist" data-prod-id="{{ item.product.id }}">
+                            Remove
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center mt-5">
+            <i class="fas fa-heart-broken fa-4x text-muted mb-3"></i>
+            <h4>Your wishlist is empty!</h4>
+            <p class="text-muted">Start exploring and add products you love.</p>
+            <a href="{% url 'ourproducts' %}" class="btn btn-outline-dark mt-2">Continue Shopping</a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    $(document).on('click', '.remove-wishlist', function(e) {
+        e.preventDefault();
+        let prodId = $(this).data('prod-id');
+        let card = $(this).closest('.col');
+
+        $.ajax({
+            type: 'GET',
+            url: '/minuswishlist',
+            data: { prod_id: prodId },
+            success: function(data) {
+                card.remove();
+                if ($('.remove-wishlist').length === 0) {
+                    location.reload();
+                }
+            },
+            error: function() {
+                alert('Failed to remove item from wishlist.');
+            }
+        });
+    });
+</script>
+{% endblock main-content %}

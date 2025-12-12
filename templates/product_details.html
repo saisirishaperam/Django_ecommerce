@@ -1,0 +1,258 @@
+{% extends 'nav.html' %}
+{% load static %}
+
+{% block title %} Category {% endblock title %}
+
+{% block main-content %} 
+
+
+
+       <div class="container  mt-5">
+        <div class="row d-flex  justify-content-center">
+        <div class="imag2 col-lg-4 " style="margin-right: 30px;">
+                <img src="{{product.product_image.url}}" class="image shadow col-xs-6 col-sm-12 col-lg-12 mt-3 text-sm-center w-100 h-78" alt="">
+        </div>
+        <div class="productdetail col-lg-6 ">
+                <h1 style="color: #222831;;">{{ product.title }}</h1>
+                <p class="text-muted">{{ product.brand }}</p>
+                <p style="margin-top: -10px;">
+                  Rs.<span class="fw-bold fs-4 text-success">{{ product.selling_price }}/-</span>
+                  {% if product.discount_price %}
+                  <del class="text-muted ms-2">Rs.{{ product.discount_price }}/-</del>
+                  {% endif %}
+              </p> 
+              <h4>More Information</h4>
+                <ul class="fs-5"  >
+                        <div style="font-size: 15px;">
+                        <li >{{ product.description }}</li>
+                        <li >{{ product.composition }}</li>
+                        <li >{{ product.prodapp }}</li>
+             
+                </ul>
+                
+                <div class="d-flex flex-wrap align-items-center gap-3 mt-4">
+                  
+                  {% if in_cart %}
+                  <button type="button" class="btn shadow px-4 py-2" style="
+                      background-color: white;
+                      border: solid 1px black;
+                      color: black;
+                      transition: 0.3s;"
+                      onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
+                      onmouseout="this.style.backgroundColor='white'; this.style.color='black';">
+                      <i class="fa-solid fa-cart-shopping"></i> In Cart
+                  </button>
+              {% else %}
+                  <form action="{% url 'addtocart' %}" method="get">
+                      <input type="hidden" name="prod_id" value="{{ product.id }}">
+                      <button type="submit" class="btn shadow px-4 py-2" style="
+                          background-color: white;
+                          border: solid 1px black;
+                          color: black;
+                          transition: 0.3s;"
+                          onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
+                          onmouseout="this.style.backgroundColor='white'; this.style.color='black';">
+                          <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+                      </button>
+                  </form>
+              {% endif %}
+              
+                        
+                        
+                    {% if user.is_authenticated %}         
+                    {% if wishlist %}
+                    <a pid="{{ product.id }}" class="minus-wishlist">
+                        <i class='bx bxs-heart-circle text-shadow' style="color: #e11a34; font-size: 50px; cursor: pointer; "></i>
+                    </a>
+                    {% else %}
+                    <a pid="{{ product.id }}" class="plus-wishlist" >
+                        <i class='bx bxs-heart-circle' style="color: rgb(56, 158, 56);  font-size: 50px; cursor: pointer;"></i>
+                    </a>
+
+                    {% endif %}
+
+                    {% endif %}
+                </div>              
+        </div>
+        </div>
+       </div>
+
+
+
+
+       {% if category_products %}
+       <div class="container-fluid " style="margin-top: 20vh;">
+        <h1 class="text-center mb-4 stylish-heading">Similar Products</h1>
+        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+      
+                {% for product in category_products %}
+                    {% if forloop.first or forloop.counter0|divisibleby:4 %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="row justify-content-center">
+                    {% endif %}
+      
+                    <div class="col-md-2">
+                    <a href="{% url 'product_details' product.id %}" style="text-decoration: none; color: black;">
+                      <div class="card shadow d-flex flex-column justify-content-between" style="height: 400px;">
+                          <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.title }}" style="width:100%; height: 200px;">
+                          <div class="card-body text-center">
+                              <h5 class="card-title" style="color: #222831;">{{ product.title }}</h5>
+                              <h6 class="card-text fw-bold">Rs.{{ product.discount_price }}/-</h6>
+                              <small class="fw-light text-danger text-decoration-line-through">Rs.{{ product.selling_price }}/-</small>
+                          </div>
+                          <div class="d-flex justify-content-center mb-3">
+                              <a href="{% url 'product_details' product.id %}" class="btn btn-dark btn-sm" >View Product</a>
+                          </div>
+                      </div>
+                    </a>
+                    </div>
+      
+                    {% if forloop.last or forloop.counter|divisibleby:4 %}
+                            </div> <!-- Close row -->
+                        </div> <!-- Close carousel-item -->
+                    {% endif %}
+                {% endfor %}
+            </div>
+      
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-dark p-3 rounded" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-dark p-3 rounded" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+      </div>
+      {% endif %}
+
+
+
+
+<style>
+  .scroll-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+  }
+
+  .product-card-wrapper {
+    display: inline-block;
+    width: 250px;
+    margin-right: 16px;
+    vertical-align: top;
+  }
+
+  .product-img {
+  height: 200px;
+  object-fit: contain;
+  transition: transform 0.3s ease-in-out;
+}
+
+.image{
+  transition: transform 0.3s ease-in-out;
+
+}
+.image:hover{
+
+  transform: scale(1.05);
+
+}
+
+.product-img:hover {
+  transform: scale(1.05);
+}
+
+  .hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .scroll-container::-webkit-scrollbar {
+    height: 0px;
+  }
+
+
+
+
+  .product-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .view-all-btn {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+.stylish-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #343a40;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+</style>
+
+
+<div class="container bg-light" style="margin-top: 20vh; padding-top: 5vh;" >
+    <div class="row d-flex justify-content-center align-items-between">
+      
+      <div class="col-md-9 ">
+        <h2 class="stylish-heading">Our Featured Instruments</h2>
+      </div>
+  
+      <div class="col-md-3 text-md-end mt-3 mt-md-0">
+        <a href="{% url 'ourproducts' %}" class="btn btn-outline-dark">View All</a>
+      </div>
+  
+    </div>
+  </div>
+
+
+
+  <div class="scroll-container">
+    {% for prod in A_Prod|slice:":10" %}
+      <div class="product-card-wrapper">
+        <div class="row mx-2">
+            <a href="{% url 'product_details' prod.id %}" style="text-decoration: none; color: inherit;">
+            {% if prod.product_image %}
+              <img src="{{ prod.product_image.url }}" class="card-img-top product-img" alt="{{ prod.title }}">
+            {% else %}
+              <div class="p-5 text-center">No Image Available</div>
+            {% endif %}
+            <div class="card-body text-center">
+              <h5 class="product-title">{{ prod.title }}</h5>
+              <p class="fw-bold">Rs.{{ prod.discount_price }}/-</p>
+              <small class="text-danger text-decoration-line-through" style="margin-top: -10px; display: block;">Rs.{{ prod.selling_price }}/-</small>            </div>
+            <div class="d-flex justify-content-center mb-3">
+              <a href="{% url 'product_details' prod.id %}" class="btn btn-sm mt-3"
+                 style="background-color: white; border: solid 1px black; color: black; transition: 0.3s;"
+                 onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
+                 onmouseout="this.style.backgroundColor='white'; this.style.color='black';">
+                 View More
+              </a>
+            </div>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+
+
+
+        
+      
+
+
+{% endblock main-content %}

@@ -1,0 +1,96 @@
+{% extends 'nav.html' %}
+{% block title %} Our Products {% endblock title %}
+
+{% block main-content %}
+<style>
+    .product-img {
+        height: 250px;
+        object-fit: contain;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        background-color: #fff;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-body h5 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+        color: #333;
+    }
+
+    .card-body p {
+        font-size: 1rem;
+        color: #111;
+        margin-bottom: 0;
+    }
+
+    .card-body small {
+        font-size: 0.9rem;
+    }
+
+    .product-title {
+        min-height: 48px;
+    }
+
+    @media (max-width: 767px) {
+        .product-img {
+            height: 180px;
+        }
+    }
+</style>
+{% if A_Prod %}
+<div class="container mt-5">
+    <h3 class="text-center mb-4 fw-bold stylish-heading">Explore Our Products</h3>
+    
+    <div class="row g-4">
+
+        {% for prod in A_Prod %}
+        <div class="col-md-3 col-sm-3">
+            <div class="card hover-card h-100">
+                <a href="{% url 'product_details' prod.id %}" style="text-decoration: none; color: inherit;">
+                    {% if prod.product_image %}
+                        <img src="{{ prod.product_image.url }}" class="card-img-top product-img" alt="{{ prod.title }}">
+                    {% else %}
+                        <div class="p-5 text-center">No Image Available</div>
+                    {% endif %}
+                    <div class="card-body text-center" >
+                        <h5 class="card-title product-title">{{ prod.title }}</h5>
+                        <p class="card-text fw-bold" style="margin-top: -10px;">Rs.{{ prod.discount_price }}/-</p>
+                        <small class="text-danger text-decoration-line-through">{{ prod.selling_price }}</small>
+                    </div>
+                    <div class="d-flex justify-content-center mb-3" >
+                        <a href="{% url 'product_details' prod.id %}" class="btn btn-sm" 
+                        style="
+                                background-color: white;
+                                border: solid 1px black;
+                                color: black;
+                                transition: 0.3s;
+                                "onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
+                                onmouseout="this.style.backgroundColor='white'; this.style.color='black';" >View More</a>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+   
+</div>
+{% else %}
+<div class="text-center " style="margin-top: 20vh;">
+    <h4 class="text-danger">No results found for "{{ query }}"</h4>
+    <p>Try checking the spelling</p>
+</div>
+{% endif %}
+{% endblock main-content %}

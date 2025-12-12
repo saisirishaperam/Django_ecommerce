@@ -1,0 +1,118 @@
+{% extends 'nav.html' %}
+{% load static %}
+{% block title %}Contact Us - Melody Mart{% endblock %}
+
+{% block main-content %}
+<style>
+  .melody-contact-section {
+    background: linear-gradient(to right, #f9f9f9, #ffffff);
+    padding: 70px 0;
+  }
+  .melody-contact-heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  .melody-contact-subtext {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 40px;
+  }
+  .melody-contact-card {
+    background: #ffffff;
+    border: none;
+    padding: 40px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    border-radius: 12px;
+  }
+  .melody-form-control {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+  .melody-form-control:focus {
+    border-color: #2c3e50;
+    box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+    outline: none;
+  }
+  .melody-submit-btn {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+  }
+  .melody-submit-btn:hover {
+    background-color: #1a252f;
+  }
+  .melody-contact-info h5 {
+    font-weight: 600;
+    margin-top: 30px;
+    color: #2c3e50;
+  }
+  .melody-contact-info p, .melody-contact-info a {
+    color: #555;
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+  .melody-contact-info a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<section class="melody-contact-section">
+  <div class="container">
+    <div class="text-center">
+      <h2 class="melody-contact-heading stylish-heading">Contact Melody Mart</h2>
+      <p class="melody-contact-subtext">Reach out to us with your inquiries, suggestions, or just say hello!</p>
+    </div>
+    <div class="row align-items-start">
+      <!-- Contact Form -->
+      <div class="col-md-7">
+        <div class="melody-contact-card">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+          <form method="POST" novalidate>
+            {% csrf_token %}
+            <input type="text" name="name" class="melody-form-control" placeholder="Your Name" required>
+            <input type="email" name="email" class="melody-form-control" placeholder="Your Email" required>
+            <input type="text" name="subject" class="melody-form-control" placeholder="Subject" required>
+            <textarea name="message" class="melody-form-control" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit" class="melody-submit-btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="col-md-5 melody-contact-info">
+        <h5>Address</h5>
+        <p>Melody Mart HQ,<br>Hyderabad, Telangana, India</p>
+
+        <h5>Email</h5>
+        <p><a href="#">support@melodymart.in</a></p>
+
+        <h5>Phone</h5>
+        <p><a href="#">+91 99999 99999</a></p>
+
+        <h5>🌐 Follow Us</h5>
+        <a href="#" class="me-3"><i class="fab fa-facebook fa-lg"></i></a>
+        <a href="#" class="me-3"><i class="fab fa-instagram fa-lg"></i></a>
+        <a href="#"><i class="fab fa-google fa-lg"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FontAwesome for social icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}

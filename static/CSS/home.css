@@ -1,0 +1,102 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030; /* ensures navbar stays above other content */
+    width: 100%;
+  }
+
+body {
+    padding-top: 137px; 
+}
+
+
+.carousel-item img {
+  height: 500px;
+  width: 90%;
+  
+} 
+
+
+/* ############################################################ */
+
+.feature-box {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+.feature-box i {
+    font-size: 40px;
+    color: #35374B;
+}
+.feature-box h5 {
+    font-weight: 600;
+    margin-top: 15px;
+}
+.feature-box p {
+    color: #666;
+}
+  
+/* ########################################################## */
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    width: 100%;
+   
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 45px;
+    font-weight: 700;
+ 
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.image-container > h5{
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    width: 100%;
+   
+    transform: translate(-50%, -50%);
+    color: white;
+ 
+    padding: 10px 20px;
+    border-radius: 5px;
+
+}
+
+.image-container > a{
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: brown;
+    border: solid 1px white;
+    border-radius: 20px;
+
+}
+
+.image-container > a:hover{
+    background-color: white;
+    color: brown;
+    border: solid 1px brown;
+ 
+
+
+}
+
+
+
+  
+/* ###################################################### */
+
+

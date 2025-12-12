@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>Melody Mart | {% block title %} {% endblock title %}</title> 
+    <link rel="icon" href="{% static 'images/LOGO2.png' %}" sizes="25*25">
+    <link rel="stylesheet" href="{% static 'CSS/bootstrap.css' %}"> 
+    <link rel="stylesheet" href="{% static 'CSS/home.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      <!-- Include Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+
+
+
+
+    
+</head>
+<body>
+
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid"  >
+    
+    <!-- Logo -->
+     <div style="margin-left: 60px;  ">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+      <img src="{% static 'images/logo.png' %}" alt="Logo" class="navbar-logo" style="width: 100px !important; height: auto !important;">
+    </a>
+  </div>
+
+    <!-- Search Bar -->
+    <div style="margin-top: -50px; margin-left: 100px; width: 400px; " >
+      <form class="d-flex position-relative" role="search" action="{% url 'search' %}">
+        <input class="form-control search-input pe-5" name="search" type="search" placeholder="Search Here" aria-label="Search" autocomplete="off" required>
+        <button class="btn search-btn position-absolute end-0 top-50 translate-middle-y me-2" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </form>
+
+    </div>
+
+    <!-- Toggle for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links and Icons -->
+    <div style="margin-top: 54px; margin-left: -11vw; ">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarLinks">
+      <ul class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-center align-items-center gap-3">
+
+        <!-- Links -->
+        <li class="nav-item">
+          <a class="btn nav-btn" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn nav-btn" href="{% url 'about' %}">About Us</a>
+        </li>
+
+        <!-- Dropdown with full instrument categories -->
+        <li class="nav-item dropdown">
+          <a class="btn nav-btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Our Instruments
+          </a>
+          <ul class="dropdown-menu bg-dark text-white">
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'PIANO' %}">Piano</a></li>
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'KEY_BOARD' %}">Key Board</a></li>
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'E_GUITER' %}">Electric Guiters</a></li>
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'A_GUITER' %}">Acoustic Guiters</a></li>
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'DRUMS' %}">Drums</a></li>
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'VIOLIN' %}">Violin</a></li>
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'SAXOPHONE' %}">Saxophone</a></li>
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'FLUTE' %}">Flute</a></li>
+            <li><a class="dropdown-item text-white" href="{% url 'category' 'SITAR' %}">Sitar</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="btn nav-btn" href="{% url 'contact' %}">Contact Us</a>
+        </li>
+      </div>
+    </div>
+
+
+      
+        <!-- Icons -->
+        <div class="collapse navbar-collapse justify-content-center"id="navbarLinks">
+          <div class="container">
+          <div class="d-flex justify-content-center  gap-3" style="margin-top: -20px; font-size: 28px;" >
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'profile' %}"> <i class='bx bx-user'></i></a>
+            </li>
+
+        <li class="nav-item position-relative">
+          <a class="nav-link text-white" href="{% url 'cart' %}">
+            <i class='bx bx-cart'></i>
+            {% if totalitem > 0 %}
+            <span class="position-absolute start-90 translate-middle badge rounded-pill" style="font-size: 10px; margin-top: 10px; background-color: #ff334f;">
+
+                {{ totalitem }}
+              </span>
+            {% endif %}
+          </a>
+        </li>
+
+        <li class="nav-item position-relative">
+          <a class="nav-link text-white" href="{% url 'wishlist' %}">
+            <i class='bx bxs-heart-circle'></i>
+            {% if totalwish > 0 %}
+            <span class="position-absolute start-90 translate-middle badge rounded-pill" style="font-size: 10px; margin-top: 10px; background-color: #ff334f;">
+
+                {{ totalwish }}
+              </span>
+            {% endif %}
+          </a>
+        </li>
+
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'logout' %}"> <i class='bx bx-log-out' ></i></a>
+        </li>
+        {% else %}
+        <li class="nav-item" >
+          <a class="nav-link text-white mt-2" style="font-size: 15px;" href="{% url 'login' %}">Login / Signup</a>
+        </li>
+        {% endif %}
+      </ul>
+          </div>
+
+
+      <div class="d-flex justify-content-center mt-3 text-white" >
+        {% if user.is_authenticated %}
+       
+          <p>Hi, {{ user.first_name }} </p>
+     
+        {% endif %}
+      </div>
+    </div>
+    </div>
+  </div>
+</nav>
+
+
+<style>
+  .nav-btn{
+    background-color: #ff334f;
+        height: 27px;
+        color: white;
+        border: solid 1px white;
+        border-radius: 10px;
+        display: flex;         
+        align-items: center;   
+        justify-content: center; 
+        padding: 0 15px;        
+        text-align: center;     
+        font-weight: 550; 
+        font-size: 16px;   
+        opacity: 95%;
+
+  }
+
+  .nav-btn:hover {
+        background-color: white;
+        color:#ff334f!important;
+        border: solid 1.5px #ff334f !important;
+
+    }
+    .nav-btn:focus,
+.nav-btn:active {
+    background-color: white !important; 
+    color: #ff334f !important;
+    border: solid 1px #ff334f !important;  
+}
+
+
+.search-input {
+                    height: 40px;
+                   
+                    border-radius: 15px;
+                    border: 1px solid #ccc;
+                    transition: border-color 0.3s;
+                }
+            
+                .search-input:hover,
+                .search-input:focus {
+                    border-color: #ff334f !important;
+                    box-shadow: none !important;
+                }
+            
+                .search-btn {
+
+                  margin-left: 0px;
+                  font-size: larger;
+                  color: rgba(255, 255, 255, 0.7);
+                  border: none;
+                      
+                }
+                .search-btn:hover{
+                  color: #ff334f;
+                }
+
+                .form-control {
+    background: transparent !important;
+    color: white;
+    border: 1px solid white;
+                }
+
+
+                
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+}
+
+
+.form-control:focus {
+    background: transparent !important;
+    color: white !important;
+    border-color: #ddd;
+    outline: none;
+    box-shadow: none;
+}
+
+  /* Show dropdown on hover */
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; /* Optional: removes jump effect */
+  }
+
+  /* Optional: smooth animation */
+  .dropdown-menu {
+    transition: all 0.3s ease;
+  }
+
+  .dropdown-menu .dropdown-item:hover {
+    background-color: rgb(100, 99, 99);
+    color: white;
+}
+
+
+
+
+</style>
+  
+
+
+            
+
+
+
+
+
+        
+        {% block banner-slider %} {% endblock banner-slider %}
+        {% block main-content %} {% endblock main-content %}
+        {% block payment-content %} {% endblock payment-content %}
+        {% block profile-containt%}{% endblock profile-containt%}
+
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+           $('.plus-wishlist').click(function(){
+            var id=$(this).attr("pid").toString();
+            $.ajax({
+              type : "GET",
+              url: "/pluswishlist",
+              data:{
+                prod_id:id
+              },
+              success:function(data){
+                // alert(data.message)
+                window.location.href = `/product_details/${id}`;
+
+              }
+            })
+           })
+
+
+
+           $('.minus-wishlist').click(function(){
+            var id=$(this).attr("pid").toString();
+            $.ajax({
+              type : "GET",
+              url: "/minuswishlist",
+              data:{
+                prod_id:id
+              },
+              success:function(data){
+                window.location.href = `/product_details/${id}`;
+
+              }
+            })
+           })
+      </script>
+      
+
+
+<style>
+  .text-reset i {
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .text-reset:hover i {
+    transform: scale(1.2);
+    color: #ff334f; /* Change color on hover */
+  }
+  
+  /* Hover effect for links */
+  .text-reset  {
+    text-decoration: none;
+    /* transition: color 0.3s ease; */
+
+  }
+  
+  .text-reset:hover {
+    color: #ff334f; /* Change color on hover */
+    text-decoration: underline;
+  }
+</style>
+
+
+
+    <!-- Footer -->
+<footer class="text-center text-lg-start bg-body-tertiary text-muted mt-auto"  >
+
+  <!-- Section: Links  -->
+  <section class="section-footer" style="box-shadow: 0px 0px 4px grey; margin-top: 10vh;">
+    <div class="container text-center text-md-start " style="padding-top: 10px;">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+           <div class="justify-content-center align-items-center" >
+            <div class="d-flex justify-content-center">
+            <img src="{% static 'images/LOGO2.png' %}" alt="logo" height="100px" width="100px">
+            
+        </div>
+        <h5 class="text-uppercase fw-bold mb-4 text-center">
+          Melody Mart
+        </h5>
+        </div>
+          <p>
+            The Best Musucal Store in Hyderabad
+          </p>
+          <br>
+          <div class="me-5  d-flex justify-content-center">
+            <h6>Get connected with us on:</h6>
+          </div >
+          <div class="d-flex justify-content-center">
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-instagram"></i>
+            </a>
+          </div>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            What You are Looking For?
+          </h6>
+          <p>
+            <a href="{% url 'category' 'PIANO' %}" class="text-reset">Piano</a>
+          </p>
+          <p>
+            <a href="{% url 'category' 'KEY_BOARD' %}" class="text-reset">Key Board</a>
+          </p>
+          <p>
+            <a href="{% url 'category' 'E_GUITER' %}" class="text-reset">Electric Guiter</a>
+          </p>
+          <p>
+            <a href="{% url 'category' 'A_GUITER' %}" class="text-reset">Acoustic Guiter</a>
+          </p>
+          <p>
+            <a href="{% url 'category' 'VIOLIN' %}" class="text-reset">Violin</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Useful links
+          </h6>
+          <p>
+            <a href="{% url 'home' %}" class="text-reset">Home</a>
+          </p>
+          <p>
+            <a href="{% url 'about'  %}" class="text-reset">About Us</a>
+          </p>
+            <a href="{% url 'contact' %}" class="text-reset">Help</a>
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+          <p><i class="fas fa-home me-3"></i> Jubilee Hills, Hyderabad</p>
+          <p>
+            <i class="fas fa-envelope me-3"></i>
+            info@melodymart.com
+          </p>
+          <p><i class="fas fa-phone me-3"></i> +91 1234567899</p>
+          <p><i class="fas fa-print me-3"></i> +91 1234567890</p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+
+  <!-- Copyright -->
+   
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2025 Copyright designed and developed by:
+    <a class="text-reset fw-bold" href="mailto:suryaprakashgeddam170@gmail.com">Ajay Miryala</a>
+  </div>
+
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
+
+
+
+
+<script src="{% static 'JS/bootstrap.js' %}"></script>
+<script src="{% static 'JS/jquery.js' %}"></script>
+<script src="{% static 'JS/popper.js' %}"></script>
+<script src="{% static 'JS/home.js' %}"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kFfQ8tIHkz1+F6Ruw9VyyysV4pVUMqbD9y7J9lJg2wzXBZklpb19DR7zu0U0N7df" crossorigin="anonymous"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+
+
+
+
+</body>
+</html> 
